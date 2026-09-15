@@ -36,6 +36,11 @@ select {
     align-self: center;
 }
 
+input:invalid {
+    border: darkred solid 3px;
+    outline: none;
+}
+
 :root {
     --text: #6b6375;
     --text-h: #08060d;

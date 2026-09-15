@@ -1,35 +1,35 @@
 // src/main.ts
-import "./style.css";
 import appTemplate from "./app.html?raw";
-import heroImg from "./assets/hero.png";
-import typescriptLogo from "./assets/typescript.svg";
-import viteLogo from "./assets/vite.svg";
-import { setupCounter } from "./counter.ts";
+import { assertSetupElements, setup, type SetupElements } from "./setup.ts";
+import "./style.css";
 
 const rootElement = document.querySelector("#app");
 
 if (rootElement) {
     rootElement.innerHTML = appTemplate;
 
-    const hero = rootElement.querySelector<HTMLImageElement>("#hero-img");
-    const tsLogo = rootElement.querySelector<HTMLImageElement>("#ts-logo");
-    const viteLogoEl =
-        rootElement.querySelector<HTMLImageElement>("#vite-logo");
-    const viteLogoDocs =
-        rootElement.querySelector<HTMLImageElement>("#vite-logo-docs");
-    const tsLogoDocs =
-        rootElement.querySelector<HTMLImageElement>("#ts-logo-docs");
+    const diameterInput =
+        rootElement.querySelector<HTMLInputElement>("#diameter-input");
+    const diameterUnitSelect =
+        rootElement.querySelector<HTMLSelectElement>("#diameter-unit");
+    const circumferenceInput = rootElement.querySelector<HTMLInputElement>(
+        "#circumference-input"
+    );
+    const circumferenceUnitSelect =
+        rootElement.querySelector<HTMLSelectElement>("#circumference-unit");
 
-    if (hero) hero.src = heroImg;
-    if (tsLogo) tsLogo.src = typescriptLogo;
-    if (viteLogoEl) viteLogoEl.src = viteLogo;
-    if (viteLogoDocs) viteLogoDocs.src = viteLogo;
-    if (tsLogoDocs) tsLogoDocs.src = typescriptLogo;
+    const setupObj = {
+        diameterInput,
+        diameterUnitSelect,
+        circumferenceInput,
+        circumferenceUnitSelect,
+    } satisfies SetupElements;
 
-    const counterElement =
-        rootElement.querySelector<HTMLButtonElement>("#counter");
-    if (counterElement) {
-        setupCounter(counterElement);
+    try {
+        assertSetupElements(setupObj);
+        setup(setupObj);
+    } catch (err: unknown) {
+        console.error("Setup failed:", err);
     }
 } else {
     console.error("Unable to mount application: #app element not found.");

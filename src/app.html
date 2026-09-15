@@ -1,16 +1,26 @@
 <section id="inputs">
     <form>
         <label for="diameter-input">Diameter</label>
-        <input id="diameter-input" type="text" />
+        <input
+            id="diameter-input"
+            type="text"
+            pattern="\d+([.]\d+)?"
+            value="0"
+        />
         <select name="diameter-unit" id="diameter-unit">
-            <option value="in">in</option>
-            <option value="cm">cm</option>
+            <option value="IN">in</option>
+            <option value="CM">cm</option>
         </select>
         <label for="circumference-input">Circumference</label>
-        <input id="circumference-input" type="text" />
+        <input
+            id="circumference-input"
+            type="text"
+            pattern="\d+([.]\d+)?"
+            value="0"
+        />
         <select name="circumference" id="circumference-unit">
-            <option value="in">in</option>
-            <option value="cm">cm</option>
+            <option value="IN">in</option>
+            <option value="CM">cm</option>
         </select>
     </form>
 </section>
