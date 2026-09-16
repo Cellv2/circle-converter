@@ -2,10 +2,10 @@ import { convertToCircumference, convertToDiameter } from "./calculations";
 import type { ConversionUnitId } from "./calculations.types";
 
 export interface SetupElements {
-    diameterInput: HTMLInputElement | null;
-    diameterUnitSelect: HTMLSelectElement | null;
     circumferenceInput: HTMLInputElement | null;
     circumferenceUnitSelect: HTMLSelectElement | null;
+    diameterInput: HTMLInputElement | null;
+    diameterUnitSelect: HTMLSelectElement | null;
 }
 
 type ResolvedSetupElements = {
@@ -36,11 +36,11 @@ export const setup = (setupObj: ResolvedSetupElements): void => {
 
         const diameter = convertToDiameter(
             circumference,
-            diameterUnitSelect.value as ConversionUnitId,
-            circumferenceUnitSelect.value as ConversionUnitId
+            circumferenceUnitSelect.value as ConversionUnitId,
+            diameterUnitSelect.value as ConversionUnitId
         );
 
-        diameterInput.value = diameter.toFixed(2).toString();
+        diameterInput.value = diameter.toFixed(2);
     });
 
     diameterInput.addEventListener("input", () => {
@@ -51,10 +51,44 @@ export const setup = (setupObj: ResolvedSetupElements): void => {
 
         const circumference = convertToCircumference(
             diameter,
-            circumferenceUnitSelect.value as ConversionUnitId,
-            diameterUnitSelect.value as ConversionUnitId
+            diameterUnitSelect.value as ConversionUnitId,
+            circumferenceUnitSelect.value as ConversionUnitId
         );
 
-        circumferenceInput.value = circumference.toFixed(2).toString();
+        circumferenceInput.value = circumference.toFixed(2);
+    });
+
+    circumferenceUnitSelect.addEventListener("change", () => {
+        const circumference = parseFloat(circumferenceInput.value);
+        const circumferenceUnit =
+            circumferenceUnitSelect.value as ConversionUnitId;
+        const diameterUnit = diameterUnitSelect.value as ConversionUnitId;
+
+        if (!isNaN(circumference)) {
+            const converted = convertToDiameter(
+                circumference,
+                circumferenceUnit,
+                diameterUnit
+            ).toFixed(2);
+
+            diameterInput.value = converted;
+        }
+    });
+
+    diameterUnitSelect.addEventListener("change", () => {
+        const circumferenceUnit =
+            circumferenceUnitSelect.value as ConversionUnitId;
+        const diameter = parseFloat(diameterInput.value);
+        const diameterUnit = diameterUnitSelect.value as ConversionUnitId;
+
+        if (!isNaN(diameter)) {
+            const converted = convertToCircumference(
+                diameter,
+                diameterUnit,
+                circumferenceUnit
+            ).toFixed(2);
+
+            circumferenceInput.value = converted;
+        }
     });
 };
