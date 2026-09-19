@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { setup } from "./setup";
 
 class MockControl extends EventTarget {
+    innerText = "";
     value: string;
 
     constructor(value: string) {
@@ -20,23 +21,19 @@ const createSetupElements = (
     ) as HTMLSelectElement,
     diameterInput: new MockControl("") as HTMLInputElement,
     diameterUnitSelect: new MockControl(diameterUnit) as HTMLSelectElement,
+    diameterUnitOptionIn: new MockControl("") as HTMLOptionElement,
+    diameterUnitOptionCm: new MockControl("") as HTMLOptionElement,
+    circumferenceUnitOptionIn: new MockControl("") as HTMLOptionElement,
+    circumferenceUnitOptionCm: new MockControl("") as HTMLOptionElement,
 });
 
 describe("setup", () => {
     it("recalculates diameter using the circumference unit as the source unit", () => {
-        const {
-            circumferenceInput,
-            circumferenceUnitSelect,
-            diameterInput,
-            diameterUnitSelect,
-        } = createSetupElements();
+        const elements = createSetupElements();
+        const { circumferenceInput, diameterInput, diameterUnitSelect } =
+            elements;
 
-        setup({
-            circumferenceInput,
-            circumferenceUnitSelect,
-            diameterInput,
-            diameterUnitSelect,
-        });
+        setup(elements);
 
         circumferenceInput.value = "12";
         circumferenceInput.dispatchEvent(new Event("input"));
@@ -52,19 +49,10 @@ describe("setup", () => {
     });
 
     it("recalculates circumference using the diameter unit as the source unit", () => {
-        const {
-            circumferenceInput,
-            circumferenceUnitSelect,
-            diameterInput,
-            diameterUnitSelect,
-        } = createSetupElements("CM", "IN");
+        const elements = createSetupElements("CM", "IN");
+        const { diameterInput, circumferenceInput } = elements;
 
-        setup({
-            circumferenceInput,
-            circumferenceUnitSelect,
-            diameterInput,
-            diameterUnitSelect,
-        });
+        setup(elements);
 
         diameterInput.value = "12";
         diameterInput.dispatchEvent(new Event("input"));
@@ -73,24 +61,34 @@ describe("setup", () => {
     });
 
     it("does not overwrite the paired field when the circumference input is not a number", () => {
-        const {
-            circumferenceInput,
-            circumferenceUnitSelect,
-            diameterInput,
-            diameterUnitSelect,
-        } = createSetupElements();
+        const elements = createSetupElements();
+        const { diameterInput, circumferenceInput } = elements;
 
-        setup({
-            circumferenceInput,
-            circumferenceUnitSelect,
-            diameterInput,
-            diameterUnitSelect,
-        });
+        setup(elements);
 
         diameterInput.value = "unchanged";
         circumferenceInput.value = "abc";
         circumferenceInput.dispatchEvent(new Event("input"));
 
         expect(diameterInput.value).toBe("unchanged");
+    });
+
+    it("sets up the correct option naming in the UI", () => {
+        const elements = createSetupElements();
+        const {
+            diameterUnitOptionIn,
+            diameterUnitOptionCm,
+            circumferenceUnitOptionIn,
+            circumferenceUnitOptionCm,
+        } = elements;
+
+        setup(elements);
+
+        expect([
+            diameterUnitOptionIn.innerText,
+            diameterUnitOptionCm.innerText,
+            circumferenceUnitOptionIn.innerText,
+            circumferenceUnitOptionCm.innerText,
+        ]).toEqual(["in", "cm", "in", "cm"]);
     });
 });

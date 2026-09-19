@@ -1,4 +1,5 @@
 import { convertToCircumference, convertToDiameter } from "./calculations";
+import { getConversionUnitByKey } from "./calculations.selectors";
 import type { ConversionUnitId } from "./calculations.types";
 
 export interface SetupElements {
@@ -6,6 +7,10 @@ export interface SetupElements {
     circumferenceUnitSelect: HTMLSelectElement | null;
     diameterInput: HTMLInputElement | null;
     diameterUnitSelect: HTMLSelectElement | null;
+    diameterUnitOptionIn: HTMLOptionElement | null;
+    diameterUnitOptionCm: HTMLOptionElement | null;
+    circumferenceUnitOptionIn: HTMLOptionElement | null;
+    circumferenceUnitOptionCm: HTMLOptionElement | null;
 }
 
 type ResolvedSetupElements = {
@@ -26,7 +31,16 @@ export const setup = (setupObj: ResolvedSetupElements): void => {
         circumferenceUnitSelect,
         diameterInput,
         diameterUnitSelect,
+        diameterUnitOptionIn,
+        diameterUnitOptionCm,
+        circumferenceUnitOptionIn,
+        circumferenceUnitOptionCm,
     } = setupObj;
+
+    diameterUnitOptionIn.innerText = getConversionUnitByKey("IN").name;
+    diameterUnitOptionCm.innerText = getConversionUnitByKey("CM").name;
+    circumferenceUnitOptionIn.innerText = getConversionUnitByKey("IN").name;
+    circumferenceUnitOptionCm.innerText = getConversionUnitByKey("CM").name;
 
     circumferenceInput.addEventListener("input", () => {
         const circumference = parseFloat(circumferenceInput.value);
