@@ -1,4 +1,3 @@
-// src/main.ts
 import appTemplate from "./app.html?raw";
 import { assertSetupElements, setup, type SetupElements } from "./setup.ts";
 import "./style.css";
