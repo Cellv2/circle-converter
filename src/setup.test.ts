@@ -28,6 +28,30 @@ const createSetupElements = (
 });
 
 describe("setup", () => {
+    describe.skip("when updating the circumference value last", () => {
+        it(
+            "recalculates the diameter value when switching the diameter unit type"
+        );
+        it(
+            "recalculates the circumference value when switching the circumference unit type"
+        );
+    });
+
+    describe.skip("when updating the diameter value last", () => {
+        it(
+            "recalculates the diameter value when switching the diameter unit type"
+        );
+        it(
+            "recalculates the circumference value when switching the circumference unit type"
+        );
+    });
+
+    describe.skip("source of truth tracking", () => {
+        it(
+            "switches from circumference to diameter after the diameter input is edited"
+        );
+    });
+
     it("recalculates diameter using the circumference unit as the source unit", () => {
         const elements = createSetupElements();
         const { circumferenceInput, diameterInput, diameterUnitSelect } =
