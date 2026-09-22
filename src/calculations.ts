@@ -1,7 +1,7 @@
 import type { ConversionUnitId } from "./calculations.types";
 
-const convertCmToIn = (value: number): number => value / 2.54;
-const convertInToCm = (value: number): number => value * 2.54;
+export const convertCmToIn = (value: number): number => value / 2.54;
+export const convertInToCm = (value: number): number => value * 2.54;
 
 export const convertToCircumference = (
     diameter: number,
