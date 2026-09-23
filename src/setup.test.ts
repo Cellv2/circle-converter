@@ -94,6 +94,32 @@ describe("setup", () => {
             expect(diameterInput.value).toBe("2.51");
         });
 
+        it("should not drift when switching the diameter unit back and forth", () => {
+            const elements = createSetupElements("CM", "CM");
+            const { circumferenceInput, diameterInput, diameterUnitSelect } =
+                elements;
+
+            setup(elements);
+
+            circumferenceInput.value = "20";
+            circumferenceInput.dispatchEvent(new Event("input"));
+
+            diameterUnitSelect.value = "IN";
+            diameterUnitSelect.dispatchEvent(new Event("change"));
+            expect(circumferenceInput.value).toBe("20.00");
+            expect(diameterInput.value).toBe("2.51");
+
+            diameterUnitSelect.value = "CM";
+            diameterUnitSelect.dispatchEvent(new Event("change"));
+            expect(circumferenceInput.value).toBe("20.00");
+            expect(diameterInput.value).toBe("6.37");
+
+            diameterUnitSelect.value = "IN";
+            diameterUnitSelect.dispatchEvent(new Event("change"));
+            expect(circumferenceInput.value).toBe("20.00");
+            expect(diameterInput.value).toBe("2.51");
+        });
+
         // TODO: should we do negatives? don't actually know what will happen honestly, pattern will probably flag it at least
 
         it("should convert the circumference value and recalculate the diameter value when switching the circumference unit type", () => {
@@ -120,7 +146,7 @@ describe("setup", () => {
         });
     });
 
-    describe.skip("when a chain of value updates happen", () => {
+    describe("when a chain of value updates happen", () => {
         it("should use the most recently edited field as the source of truth for subsequent unit changes", () => {
             const elements = createSetupElements();
             const { circumferenceInput, diameterInput, diameterUnitSelect } =
@@ -144,8 +170,8 @@ describe("setup", () => {
             // we last updated circumference, so only the diameter should change if we update the diameter unit
             diameterUnitSelect.value = "CM";
             diameterUnitSelect.dispatchEvent(new Event("change"));
-            expect(diameterInput.value).toBe("5.67");
-            expect(circumferenceInput.value).toBe("7");
+            expect(diameterInput.value).toBe("5.66");
+            expect(circumferenceInput.value).toBe("7.00");
         });
     });
 

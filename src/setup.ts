@@ -108,6 +108,11 @@ export const setup = (setupObj: ResolvedSetupElements): void => {
             circumferenceInput.value = circumference.toFixed(2);
         }
 
+        // this causes problems, the input just keeps on increasing on each unit change??
+        // if (lastUpdatedInput === diameterInput) {
+        //     return
+        // }
+
         const converted = convertToDiameter(
             circumference,
             circumferenceUnit,
@@ -137,6 +142,11 @@ export const setup = (setupObj: ResolvedSetupElements): void => {
 
             diameterInput.value = diameter.toFixed(2);
         }
+
+        // this causes problems, the input just keeps on increasing on each unit change??
+        // if (lastUpdatedInput === circumferenceInput) {
+        //     return
+        // }
 
         const converted = convertToCircumference(
             diameter,
